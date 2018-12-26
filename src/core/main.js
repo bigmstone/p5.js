@@ -42,6 +42,15 @@ var p5 = function(sketch, node, sync) {
     node = undefined;
   }
 
+  var extendsClass = false;
+
+  if (
+    (this.setup && this.draw && typeof this.setup === 'function',
+    typeof this.draw === 'function')
+  ) {
+    extendsClass = true;
+  }
+
   //////////////////////////////////////////////
   // PUBLIC p5 PROPERTIES AND METHODS
   //////////////////////////////////////////////
@@ -493,7 +502,7 @@ var p5 = function(sketch, node, sync) {
 
   // If the user has created a global setup or draw function,
   // assume "global" mode and make everything global (i.e. on the window)
-  if (!sketch) {
+  if (!sketch && !extendsClass) {
     this._isGlobal = true;
     p5.instance = this;
     // Loop through methods on the prototype and attach them to the window
@@ -519,7 +528,7 @@ var p5 = function(sketch, node, sync) {
         friendlyBindGlobal(p2, this[p2]);
       }
     }
-  } else {
+  } else if (sketch && !extendsClass) {
     // Else, the user has passed in a sketch closure that may set
     // user-provided 'setup', 'draw', etc. properties on this instance of p5
     sketch(this);
