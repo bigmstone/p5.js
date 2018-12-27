@@ -2,6 +2,7 @@
   "name": "p5",
   "repository": "processing/p5.js",
   "scripts": {
+    "prepare": "npm run docs; npm run build",
     "grunt": "grunt",
     "build": "grunt build",
     "dev": "grunt browserify connect:yui watch:quick",
